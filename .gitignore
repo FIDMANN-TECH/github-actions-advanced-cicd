@@ -1,0 +1,54 @@
+# ==========================
+# Node.js dependencies
+# ==========================
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# ==========================
+# Environment variables
+# NEVER commit secrets!
+# ==========================
+.env
+
+# ==========================
+# Logs
+# ==========================
+logs/
+*.log
+*.log.*
+
+# ==========================
+# System & Editor files
+# ==========================
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# ==========================
+# Build & cache
+# ==========================
+dist/
+build/
+.cache/
+*.gz
+
+# ==========================
+# Docker
+# ==========================
+docker-image.tar
+.dockerignore
+
+# ==========================
+# GitHub files to IGNORE
+# (Keep workflows)
+# ==========================
+# NOTE: DO NOT ignore .github/workflows
+!.github/
+!.github/workflows/
+
+# ==========================
+# Optional — if using tests
+# ==========================
+coverage/
