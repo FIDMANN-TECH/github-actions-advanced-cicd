@@ -1,21 +1,34 @@
-// Simple Node/Express server to serve `app/` and provide a health endpoint
-const express = require('express');
-const path = require('path');
+// Production-ready Express server for Render
+
+const express = require("express");
+const path = require("path");
 
 const app = express();
-const PORT = process.env.PORT || 10000;
 
-// Serve static frontend
-app.use(express.static(path.join(__dirname, 'app')));
+// Render **must** provide the PORT. Do not use fallback.
+const PORT = process.env.PORT;
+if (!PORT) {
+  console.error("❌ ERROR: Render did not provide a PORT environment variable.");
+  process.exit(1);
+}
 
-// Health check
-app.get('/health', (req, res) => res.json({ status: 'ok', time: new Date().toISOString() }));
+// Serve static frontend files
+app.use(express.static(path.join(__dirname, "app")));
 
-// Fallback to index.html for SPA behaviour (optional)
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'app', 'index.html'));
+// Health check endpoint
+app.get("/health", (req, res) => {
+  res.json({
+    status: "healthy",
+    timestamp: new Date().toISOString(),
+  });
 });
 
+// Serve index.html for all other routes (SPA fallback)
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "app", "index.html"));
+});
+
+// Start the server
 app.listen(PORT, () => {
-  console.log(`Server listening on port ${PORT} (NODE_ENV=${process.env.NODE_ENV || 'development'})`);
+  console.log(`🚀 Server running on Render-assigned port ${PORT}`);
 });
