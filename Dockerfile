@@ -20,7 +20,12 @@ ENV NODE_ENV=production
 
 COPY --from=build /usr/src/app ./
 
-# Expose a port for local testing (Render ignores this)
-EXPOSE 3000
+# Render provides PORT dynamically
+ARG PORT
+ENV PORT=$PORT
 
+# Expose the same port Render assigns
+EXPOSE $PORT
+
+# Start server
 CMD ["node", "server.js"]
