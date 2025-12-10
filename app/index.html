@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>MarketPeak - Demo</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <main class="container">
+    <h1>MarketPeak — Demo Deployment</h1>
+    <p>This is a demo app for CI/CD + Render deployment.</p>
+
+    <section>
+      <h2>Status</h2>
+      <pre id="status">checking...</pre>
+      <button id="check">Check /health</button>
+    </section>
+
+    <footer>
+      <small>Deployed with Docker + GitHub Actions → Render</small>
+    </footer>
+  </main>
+
+  <script>
+    async function check() {
+      try {
+        const r = await fetch('/health');
+        const j = await r.json();
+        document.getElementById('status').textContent = JSON.stringify(j, null, 2);
+      } catch (e) {
+        document.getElementById('status').textContent = 'error: ' + e.message;
+      }
+    }
+    document.getElementById('check').addEventListener('click', check);
+    // auto-check
+    check();
+  </script>
+</body>
+</html>
