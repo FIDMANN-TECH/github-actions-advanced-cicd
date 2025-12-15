@@ -1,0 +1,20 @@
+services:
+  - type: web
+    name: github-actions-advanced-cicd
+    runtime: docker
+    repo: https://github.com/<your-username>/<your-repo-name>
+    plan: free
+    branch: main
+    rootDir: .
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: API_URL
+        value: https://jsonplaceholder.typicode.com
+      - key: MY_SECRET_TOKEN
+        value: any-random-string
+    healthCheckPath: /health
+    autoDeploy: true
+    buildFilter:
+      paths:
+        - "**/*"
