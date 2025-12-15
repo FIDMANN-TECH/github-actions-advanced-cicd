@@ -1,251 +1,148 @@
-# Advanced GitHub Actions CI/CD Pipeline with Docker & Render
+# 🚀 MarketPeak — Advanced CI/CD Pipeline with GitHub Actions, Docker & Render
 
-This project demonstrates a **professional, end-to-end CI/CD pipeline** using **GitHub Actions**, **Docker**, and **Render.com**. It is designed to showcase advanced DevOps practices suitable for real-world production systems and portfolio presentation.
-
----
-
-# 🚀 Project Overview
-
-This repository contains:
-
-* A fully automated **CI workflow** (build, lint, test, matrix strategy, artifact upload)
-* A **Docker Build & Publish workflow**
-* A **Render Deployment workflow** automatically triggered after Docker push
-* A clean **DevOps folder structure**, including `.dockerignore`, PR templates, environment examples
-* A professional-grade Dockerfile prepared for production
-
-This pipeline covers the full CI → Docker → CD cycle.
+**Repository:** `github-actions-advanced-cicd`  
+**Live URL:** https://github-actions-advanced-cicd.onrender.com  
+**DockerHub:** `omoghenefid/marketpeak-cicd`
 
 ---
 
-# 📂 Project Structure
+## 📌 Project Objective
+
+This project demonstrates a **complete, production-style CI/CD pipeline** for a demo **MarketPeak** web application using **GitHub Actions**, **Docker**, and **Render**.
+
+The objective is to clearly showcase:
+
+- Dockerization of a Node.js application  
+- Automated CI pipeline (build, test, validation)  
+- Automated Docker image build & push to Docker Hub  
+- Automated deployment to Render  
+- Professional Git workflow using feature branches and Pull Requests  
+- Clear screenshot-based evidence for instructor grading  
+
+---
+
+## 🧠 What This Project Demonstrates
+
+- Real-world CI/CD automation  
+- GitHub Actions workflow design  
+- Docker multi-stage builds  
+- Secure secrets and environment variable management  
+- API-based cloud deployment (Render)  
+- Professional Git branching and PR workflow  
+- Production health-check endpoint  
+
+---
+
+## 📂 Project Structure
 
 ```
 .github/
   workflows/
-    ci.yml                   # CI: build, test, lint, matrix, artifacts
-    docker-publish.yml       # CD: build and push Docker image
-    deploy-render.yml        # CD: trigger Render deployment
-Dockerfile                   # Example Node.js Dockerfile
-.dockerignore                # Excludes unnecessary files from Docker context
-.env.example                 # Example environment variables
-README.md                    # You are reading this
+    ci.yml
+    docker-publish.yml
+    deploy-render.yml
+app/
+  index.html
+  styles.css
+  main.js
+Dockerfile
+.dockerignore
+.env.example
+server.js
+package.json
+README.md
 ```
 
 ---
 
-# 🔧 Technologies Used
+## 🔧 Technologies Used
 
-* **GitHub Actions** — CI/CD automation
-* **Docker & Docker Hub** — containerization + registry
-* **Render.com** — serverless container deployment (free tier)
-* **Node.js** (example app) — language/runtime used in workflows
-* **CI/CD Best Practices** — caching, matrix builds, PR templates, secrets management
-
----
-
-# 📌 CI Pipeline Summary (`ci.yml`)
-
-This workflow runs on **push** and **pull_request** to `main` or `dev` branches.
-
-### What it does:
-
-* Runs on a **matrix** (Ubuntu + Windows, Node 18 + Node 20)
-* Installs dependencies
-* Runs linting
-* Runs unit tests in CI mode
-* Builds the project
-* Uploads the build artifacts
-
-### Key Features:
-
-* **Matrix builds** → tests code across environments
-* **Caching** → faster builds
-* **Artifacts** → downloadable build output
-* **Fail-fast disabled** → shows all failing matrix jobs
+- GitHub Actions  
+- Docker & Docker Hub  
+- Render.com  
+- Node.js (Express)  
+- HTML / CSS / JavaScript  
 
 ---
 
-# 🐳 Docker Build & Push Pipeline (`docker-publish.yml`)
+## 🧱 Application Overview
 
-This workflow triggers when code is pushed to **main**.
-
-### What it does:
-
-* Builds a production Docker image using Buildx
-* Supports multi-architecture builds via QEMU
-* Logs in to Docker Hub via secrets
-* Pushes two tags:
-
-  * `latest`
-  * `commit-sha`
-
-### Requirements:
-
-You must add the following GitHub Secrets:
-
-* `DOCKERHUB_USERNAME`
-* `DOCKERHUB_TOKEN`
+- Express backend serving static frontend from `/app`
+- Runs on Render-assigned PORT
+- Health endpoint available at `/health`
+- Dockerized using a multi-stage Dockerfile
 
 ---
 
-# 🔁 Render Deployment Pipeline (`deploy-render.yml`)
+## 🐳 Dockerfile Summary
 
-This workflow runs **after** Docker publishing completes successfully.
-
-### What it does:
-
-* Sends a POST request to Render Deploy Hook URL
-* Tells Render to pull new Docker image and redeploy service
-
-### Requirements:
-
-* Add Render Deploy Hook as secret:
-
-  * `RENDER_DEPLOY_HOOK`
+The Dockerfile uses a multi-stage build to improve security, performance, and image size.
 
 ---
 
-# 🔐 Required GitHub Secrets
+## ⚙️ CI Pipeline Overview
 
-| Secret Name          | Description                         |
-| -------------------- | ----------------------------------- |
-| `DOCKERHUB_USERNAME` | Docker Hub username                 |
-| `DOCKERHUB_TOKEN`    | Docker Hub access token             |
-| `RENDER_DEPLOY_HOOK` | URL generated by Render deploy hook |
+The CI workflow runs on push and pull requests and installs dependencies, runs tests, and validates builds.
 
 ---
 
-# ⚙️ How to Run the Full CI/CD Pipeline
+## 🐳 Docker Build & Push Pipeline
 
-## 1. Clone repository
-
-```bash
-git clone git@github.com:<your-username>/github-actions-advanced-cicd.git
-cd github-actions-advanced-cicd
-```
-
-## 2. Create and push CI setup branch
-
-```bash
-git checkout -b feature/ci-setup
-git add .
-git commit -m "chore(ci): add workflows, Dockerfile, CI docs"
-git push -u origin feature/ci-setup
-```
-
-## 3. Create Pull Request
-
-* PR triggers **CI workflow** automatically
-* Review test + build results
-* Merge when CI passes
-
-## 4. Trigger Docker & Render workflows
-
-* Push to `main` will:
-
-  1. Build and push Docker image
-  2. Trigger Render deployment
+Triggered on push to main branch, builds and pushes Docker image to Docker Hub.
 
 ---
 
-# 🏗️ Dockerfile Summary
+## 🌍 Render Deployment Pipeline
 
-The included Dockerfile uses a multi-stage build:
-
-1. **Builder stage** — Install dependencies & build app
-2. **Production stage** — Copies built files and runs app
-
-This improves:
-
-* Security
-* Image size
-* Performance
+Automatically deploys updated Docker image to Render using API trigger.
 
 ---
 
-# 🌐 Render Deployment Overview
+## 🔀 Git Workflow
 
-Steps to deploy:
-
-1. Go to **Render → New → Web Service**
-2. Select your GitHub repo
-3. Choose **Docker** environment
-4. Disable auto-deploy (we use GitHub Actions instead)
-5. Generate **Deploy Hook** URL
-6. Add hook to GitHub Secrets as `RENDER_DEPLOY_HOOK`
-
-Render will automatically deploy each time GitHub Actions POSTs to that hook.
+Feature branches → Pull Request → CI checks → Merge → Deployment.
 
 ---
 
-# 📸 Where to Take Screenshots (Instructor Requirements)
+## 🌐 Live Deployment Verification
 
-This README is structured to support your practical demonstration. Take screenshots at:
-
-1. **Git Bash** – initial commit & push
-2. GitHub **Secrets Page**
-3. GitHub **Branch Protection Rules**
-4. **Create Pull Request** page
-5. PR **checks running**
-6. CI **workflow summary**
-7. CI **logs** (lint/test/build)
-8. CI **artifacts page**
-9. **PR merged** successfully
-10. **Docker build** workflow logs
-11. **Docker Hub repository tags**
-12. **Render service creation screen**
-13. **Render deploy hook** screen
-14. **GitHub secret RENDER_DEPLOY_HOOK** added
-15. **Deploy to Render workflow run**
-16. **Render deploy logs**
-17. **Live Render URL working**
-18. Optional: GitHub **Release page** with v1.0.0 tag
-
-This sequence produces a complete professional evidence set for DevOps scoring.
+- Homepage accessible via Render URL
+- Health endpoint returns JSON status
 
 ---
 
-# 📝 Pull Request Template
+## 🎉 Conclusion
 
-This repository includes:
+This project delivers a complete CI/CD pipeline suitable for academic grading and professional DevOps portfolios.
 
-```
-.github/PULL_REQUEST_TEMPLATE.md
-```
-
-Ensure meaningful PR descriptions for professional documentation.
-
----
-
-# 🧪 Testing the CI Locally (Optional)
-
-Before pushing commits, validate locally:
-
-```bash
-npm ci
-npm run lint
-npm test
-npm run build
-```
-
-Then test Docker:
-
-```bash
-docker build -t app:local .
-docker run -p 8080:80 app:local
-```
-
----
-
-# 🎉 Conclusion
-
-With this setup, you now have:
-
-* Full CI pipeline ✔️
-* Docker image publishing ✔️
-* Automated Render deployment ✔️
-* Production-ready Dockerfile ✔️
-* Professional GitHub repo best practices ✔️
-
-This project showcases advanced DevOps workflow automation suitable for professional portfolios and job interviews.
+## Below are screenshots of workflow:
+![folder-structure](./img/00_project-folder-structure-vscode.png)
+![github-workflows](./img/01_github-workflows-folder-vscode.png)
+![ci-workflows](./img/02_ci-workflow-vscode.png)
+![cd-docker-workflows](./img/03_docker-publish-workflow-vscode.png)
+![cd-render-workflow](./img/04_deploy-render.yml.png)
+![index-html-input](./img/05_modified_index_html_pushed.png)
+![Dockerfile](./img/06_dockerfile-multistage-vscode.png)
+![dockerignore](./img/07_dockerignore-file-vscode.png)
+![env-example](./img/08_env-example-vscode.png)
+![server-js](./img/09_serverjs-backend-code-vscode.png)
+![package-json](./img/10_packagejson-vscode.png)
+![indexhtml](./img/11_indexhtml-frontend-code-vscode.png)
+![package-lock-json](./img/12_package_lock_json.png)
+![npm-installation](./img/13_npm_installation.png)
+![npm-ci](./img/14_npm_ci_installation.png)
+![local-server-run](./img/15_local-server-run-vscode)
+![gitt-create-push-feature-branch](./img/16_git-create-and-push-feature-branch.png)
+![create-pull](./img/17_github_create_pull_request.jpeg)
+![pr-merge](./img/18_pr-merge-confirmation-main-branch.jpeg)
+![github-ci-workflow](./img/19_github_actions_workflows_ci_branch.jpeg)
+![github-cd-dockerhub-workflow](./img/20_github_actions_workflow_cd_dockerhub.jpeg)
+![github-cd-render-workflow](./img/21_github_actions_workflow_cd_render.jpeg)
+![ci-workflow-main](./img/22_github_actions_workflows_ci_main.jpeg)
+![dockerhub-image-published](./img/23_dockerhub-image-published-latest-tag.jpeg)
+![render-log](./img/24_render_log_dockerfile_error.png)
+![updated-dockerfile](./img/25_updated_dockerfile.png)
+![render-log](./img/26_render_log_deployment_succcess.png)
+![localhost-5000](./img/27_localhost_5000_browser.png)
+![renderlive-app-homepage](./img/28_render-live-production-app-homepage.jpeg)
+![render-health-check](./img/29_render-health-check-endpoint-success.jpeg)
